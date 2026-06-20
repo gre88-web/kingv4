@@ -271,7 +271,7 @@ function foldEvent(folded: FoldedState, event: CrownEvent): void {
     case "buy":
       break;
     default:
-      assertNever(event);
+      throw new Error(`Unexpected event type: ${(event as CrownEvent).type}`);
   }
 }
 
@@ -380,6 +380,3 @@ function canonicalAddress(address: Address): Address {
   return address.toLowerCase() as Address;
 }
 
-function assertNever(value: never): never {
-  throw new Error(`Unexpected event: ${JSON.stringify(value)}`);
-}
