@@ -1,0 +1,43 @@
+{
+  "name": "@king-of-the-curve/engine",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Deterministic King of the Curve rules engine, store, mocks, and simulator",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./rules": {
+      "types": "./dist/rules.d.ts",
+      "import": "./dist/rules.js"
+    },
+    "./store": {
+      "types": "./dist/store.d.ts",
+      "import": "./dist/store.js"
+    },
+    "./mockSource": {
+      "types": "./dist/mockSource.d.ts",
+      "import": "./dist/mockSource.js"
+    },
+    "./simulator": {
+      "types": "./dist/simulator.d.ts",
+      "import": "./dist/simulator.js"
+    },
+    "./types": {
+      "types": "./dist/types.d.ts",
+      "import": "./dist/types.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "simulate": "pnpm build && node dist/simulator.js"
+  },
+  "dependencies": {
+    "viem": "latest"
+  }
+}
