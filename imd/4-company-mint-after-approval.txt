@@ -1,6 +1,6 @@
 Launch the Kekborn NFT collection: an ERC-721 contract plus a claim website. Run this only after the project owner has approved the artwork and metadata.
 
-Requirements source (implement against, pinned): https://github.com/gre88-web/kingv4 at commit 0325909ca3f6dbabfad6c90f1bc68ed068df304e, files spec/01-genesis.md (sections 6-8), spec/07-blockchain-economy.md, spec/09-security.md.
+Requirements source (implement against, pinned): https://github.com/gre88-web/kingv4 at commit e87d7803a8917be499cfa3b4b3cf6c2c7eab01df, files spec/01-genesis.md (sections 6-8), spec/07-blockchain-economy.md, spec/09-security.md.
 
 Inputs: the owner-signed approval manifest (token ID, wallet, metadata sha256) and the approved metadata and portrait PNGs. Use them byte for byte. Change no artwork, tier, score, genetics or traits.
 

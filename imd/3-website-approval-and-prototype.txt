@@ -1,6 +1,6 @@
 Build the Kekborn approval dashboard and a playable Cell-stage prototype as one static browser site. Deploy no contracts and mint nothing.
 
-Requirements source (implement against, pinned): https://github.com/gre88-web/kingv4 at commit 0325909ca3f6dbabfad6c90f1bc68ed068df304e, files spec/01-genesis.md (sections 5-7), spec/02-characters.md, spec/03-evolution.md (Stage 1), spec/06-website.md.
+Requirements source (implement against, pinned): https://github.com/gre88-web/kingv4 at commit e87d7803a8917be499cfa3b4b3cf6c2c7eab01df, files spec/01-genesis.md (sections 5-7), spec/02-characters.md, spec/03-evolution.md (Stage 1), spec/06-website.md.
 
 Inputs: scores.csv from the snapshot (wallet, score, tier, genetics) and the owner-approved layer library and compositor. If an input is missing, use clearly labelled sample data and say so.
 

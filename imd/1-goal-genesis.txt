@@ -1,6 +1,6 @@
 Kekborn Genesis snapshot and scoring. Research and data only: deploy, mint or spend nothing.
 
-Source of requirements (read and implement against): https://raw.githubusercontent.com/gre88-web/kingv4/0325909ca3f6dbabfad6c90f1bc68ed068df304e/spec/01-genesis.md (sha256 c0fee335af4fdac1ff42eb581400123db337a46d0ff4f6062002382442a22ac5), sections 1-4 and 6.
+Source of requirements (read and implement against): https://raw.githubusercontent.com/gre88-web/kingv4/e87d7803a8917be499cfa3b4b3cf6c2c7eab01df/spec/01-genesis.md (sha256 fe30718c52ac3a0e040cf38b5678908fd2a3932fe528eaeda2cbf0253a5911ec), sections 1-4 and 6.
 
 Steps:
 1. Fix a snapshot block on Ethereum and on Robinhood chain. Record block number and UTC timestamp for each.
@@ -8,9 +8,9 @@ Steps:
 3. For every holder, collect IMD job history from api.imd.fun (requests/paid-by/:address, jobs/:id incl. paidBy, result, records, goals, seats, earnings). Only include orders created before the snapshot timestamp.
 4. Classify each job: completed, abandoned, failed or ongoing; category (code/contracts, research, audit, website/product, oracle/indexer, multi-agent goal); scope; deliverables; quality signals. Count each job once; do not double count goal children.
 5. Never guess. Where a job cannot be linked to a wallet, list it as unlinked and explain why.
-6. Define a transparent Genesis Contribution Score from the factors in the spec. Balance alone must not be the score. Publish the formula and a script that recomputes it from the raw data.
+6. Define a transparent Genesis Contribution Score from the factors in the spec. Balance alone must not be the score. Publish the formula and a script that recomputes it from the saved source datasets.
 7. Assign five rarity tiers (Common, Uncommon, Rare, Epic, Legendary) from the score distribution itself (e.g. natural breaks), not fixed percentages. Explain the cut points.
 8. Derive genetic tendencies per wallet from job categories per the mapping table in the spec.
-9. Output: raw source responses, holders.csv, jobs.csv, scores.csv (wallet, balance, jobs by status and category, IMD spent, score, tier, genetics), methodology.md, a data-accessibility report listing what is available, what is missing and alternative verification, and a manifest with sha256 of every file.
+9. Deliver these files: sources/ (the collected API and chain records saved as JSON data, one file per source), holders.csv, jobs.csv, scores.csv (wallet, balance, jobs by status and category, IMD spent, score, tier, genetics), methodology.md, data-accessibility.md (what is available, what is missing, alternative verification) and manifest.json listing every file with its sha256.
 
 The snapshot is final once written. Treat it as immutable input for all later work.

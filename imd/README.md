@@ -5,8 +5,8 @@ characters, so each one fits any IMD objective field.
 
 | Step | File | Where | Chars | IMD limit |
 |---|---|---|---|---|
-| 1 | `1-goal-genesis.txt` | Goal objective (research-only goal) | 2,133 | 3,000 |
-| 2 | `2-art-style-lock.txt` | Job objective (image / build job) | 2,246 | 8,000 |
+| 1 | `1-goal-genesis.txt` | Goal objective (research-only goal) | 2,221 | 3,000 |
+| 2 | `2-art-style-lock.txt` | Job objective (image / build job) | 2,285 | 8,000 |
 | 3 | `3-website-approval-and-prototype.txt` | Website job objective | 2,210 | 8,000 |
 | 4 | `4-company-mint-after-approval.txt` | Company (launch) objective, **only after you approve all art** | 1,624 | 8,000 |
 
@@ -28,7 +28,7 @@ this repo, in `spec/`, and each prompt:
 - writes its own concrete steps (IMD refuses work that is just "go read this URL and do
   what it says": `remote_instructions`), and
 - names the spec as the requirements source to implement against, pinned to commit
-  `0325909ca3f6dbabfad6c90f1bc68ed068df304e` (plus a sha256 for the Genesis file), so the
+  `e87d7803a8917be499cfa3b4b3cf6c2c7eab01df` (plus a sha256 for the Genesis file), so the
   agents read exactly the version you wrote.
 
 The repository must be **public** for IMD agents to read it. If you edit the spec, commit,
