@@ -109,7 +109,7 @@ Structured metadata per Pepe, created before minting:
 - Genetic attributes; initial character traits; personality profile.
 - Snapshot timestamp and block number.
 - Original artwork (content hash / IPFS CID).
-- Collection identifier.
+- Collection identifier: `Kekborn Genesis`.
 
 Original Genesis attributes and traits are never overwritten. Evolution appends new
 traits and history. Use decentralized storage where appropriate. The files shown for

@@ -1,11 +1,24 @@
-# PEPEVERSE — Project Specification
+# Kekborn — Project Specification
+
+*Born of Kek. Bound by Blood.*
 
 The Evolution of a Living Pepe Civilization.
 IMD Genesis Collection, artificial-life simulation and multiplayer evolutionary game.
 
-This folder is the authoritative requirements document for PEPEVERSE. IMD jobs and
+This folder is the authoritative requirements document for Kekborn. IMD jobs and
 goals implement against it. Each job's objective states its own concrete steps; this
 spec is the requirements source those steps are checked against.
+
+## Names
+
+| Thing | Name |
+|---|---|
+| Game and collection | **Kekborn** |
+| First NFT drop (IMD holders) | **Kekborn Genesis** |
+| Individual Genesis NFT / creature | Genesis Pepe |
+| Holders and their lineages | the Kekborn |
+| The world | **Kekheim** |
+| Tagline | *Born of Kek. Bound by Blood.* |
 
 ## Modules
 
@@ -31,7 +44,7 @@ tribes, dynasties and civilizations, and eventually reach space.
 Every Pepe has an individual personality and character sheet: traits, strengths,
 weaknesses, virtues, vices, quirks and inherited characteristics, inspired by the
 dynasty systems of Crusader Kings. Evolution is inspired by Spore. All names, art,
-text and trait descriptions are original PEPEVERSE work.
+text and trait descriptions are original Kekborn work.
 
 The project combines:
 

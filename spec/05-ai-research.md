@@ -24,5 +24,5 @@ from the simulation mechanics.
 - Every claimed discovery must be reproducible (seed + rules version + parameters)
   and independently testable.
 
-Long-term goal: PEPEVERSE as an artificial laboratory for evolution, intelligence,
+Long-term goal: Kekborn as an artificial laboratory for evolution, intelligence,
 personality, inheritance, cooperation and civilization.
