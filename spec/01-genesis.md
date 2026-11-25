@@ -20,8 +20,10 @@ Retrieve all available historical holder and wallet activity data and establish:
 Requirements:
 
 - Record the exact snapshot timestamp and block number (per chain).
-- Preserve the snapshot in a durable, independently verifiable format (raw source
-  responses + derived tables + sha256 of each file; pin to IPFS where appropriate).
+- Preserve the snapshot as a durable, independently verifiable dataset: the collected
+  API and chain records saved as JSON data files (one per source), the derived CSV
+  tables, and a manifest.json listing every delivered file with its sha256. Pin to IPFS
+  where appropriate.
 - The snapshot is immutable once finalized. Later wallet activity or new jobs never
   change Genesis eligibility or contribution scores.
 - Do not treat wallet balance alone as contribution.
