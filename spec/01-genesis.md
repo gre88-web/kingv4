@@ -19,29 +19,28 @@ Retrieve all available historical holder and wallet activity data and establish:
 
 Requirements:
 
-- Record the exact snapshot timestamp and block number (per chain).
-- Preserve the snapshot as a durable, independently verifiable dataset: the collected
-  API and chain records saved as JSON data files (one per source), the derived CSV
-  tables, and a manifest.json listing every delivered file with its sha256. Pin to IPFS
-  where appropriate.
+- The snapshot has one chosen block per chain; snapshot.json stores each block number
+  and its UTC time.
+- The snapshot is a durable, independently verifiable dataset: collected records as
+  JSON data files (one per source), derived CSV tables, and a manifest.json listing
+  every delivered file with its sha256. Pin to IPFS where appropriate.
 - The snapshot is immutable once finalized. Later wallet activity or new jobs never
   change Genesis eligibility or contribution scores.
 - Do not treat wallet balance alone as contribution.
 - Do not invent missing history or attribute jobs to the wrong wallet.
-- If job data cannot be reliably linked to wallets, report exactly what is accessible,
-  what is missing and which alternative verification methods exist.
+- If job data cannot be reliably linked to wallets, data-accessibility.md documents
+  which data is available, which is missing and which alternative verification
+  methods exist.
 
-Known data sources to investigate (verify each; do not assume):
+Data sources to evaluate (verify each; do not assume):
 
-- IMD token contracts: Ethereum `0xd34a99bc0f67ae1bbd63c660e6d0b0dd03e263b7`,
-  Robinhood chain `0x5f7bb59365ce557c26dbcaa4ee9d39a4b95b7127`. Holders and balances
-  at a block come from on-chain reads (Transfer event replay or balanceOf at block);
-  the IMD API documents no holders endpoint.
-- `GET https://api.imd.fun/requests/paid-by/:address` — orders a wallet paid for
-  (max 100, newest first; status, payment, result).
-- `GET /jobs/:id` — includes `paidBy`. `GET /jobs/:id/result`, `/report.md`, `/records`.
-- `GET /wallets/:address/earnings`, `/seats/owners`, `/seats/:tokenId`, `/seats/records`.
-- `GET /goals/:id/*`, `GET /publications`.
+| Source | What it provides |
+|---|---|
+| IMD token contract on Ethereum `0xd34a99bc0f67ae1bbd63c660e6d0b0dd03e263b7` and on Robinhood chain `0x5f7bb59365ce557c26dbcaa4ee9d39a4b95b7127` | Holders and balances at the snapshot block (from Transfer history or balance at block). IMD's API documents no holder list. |
+| IMD API, orders paid by a wallet | Orders a wallet paid for (up to 100, newest first) with status and payment |
+| IMD API, job records | Job details including the paying wallet, result and records |
+| IMD API, wallet earnings and seats | Earnings per wallet; seat owners and their work history |
+| IMD API, goals and publications | Goal structure (to avoid double counting) and published deliverables |
 
 ## 2. Genesis Contribution Score
 
