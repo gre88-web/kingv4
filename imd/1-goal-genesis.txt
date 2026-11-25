@@ -1,9 +1,11 @@
 Kekborn Genesis snapshot and scoring for IMD holders. Research and data only: deploy, mint or spend nothing.
 
+Snapshot rule: snapshot time T = 2026-11-25T00:00:00Z. On each chain the snapshot block is the last block with a timestamp at or before T.
+
 Steps:
-1. Choose one snapshot block on Ethereum and one on Robinhood chain. Store each block number and its UTC time in snapshot.json.
+1. Find the snapshot block on Ethereum and on Robinhood chain by the rule above. Store each block number and its UTC time in snapshot.json.
 2. Build the holder list of the IMD token (Ethereum 0xd34a99bc0f67ae1bbd63c660e6d0b0dd03e263b7, Robinhood 0x5f7bb59365ce557c26dbcaa4ee9d39a4b95b7127) with each wallet's balance at the snapshot block, from on-chain data. Merge wallets across chains.
-3. For each holder, gather its IMD job history from the IMD API at api.imd.fun: orders the wallet paid for, job details and results, goals, seats and earnings. Only orders created before the snapshot time count.
+3. For each holder, gather its IMD job history from the IMD API at api.imd.fun: orders the wallet paid for, job details and results, goals, seats and earnings. Only orders created before T count.
 4. Classify each job by status (completed, abandoned, failed, ongoing) and category (code/contracts, research, audit, website/product, oracle/indexer, multi-agent goal), with scope, deliverables and quality signals. Count each job once; goal child jobs are not counted twice.
 5. Never guess. A job that cannot be linked to a wallet is listed as unlinked, with the reason.
 6. Design a transparent Genesis Contribution Score from: completed jobs, IMD spent, category diversity, scope and complexity, successful deliverables, quality signals and multi-agent goal participation. Balance alone is not the score. Write the formula in methodology.md and a script that recomputes every score from the saved datasets.

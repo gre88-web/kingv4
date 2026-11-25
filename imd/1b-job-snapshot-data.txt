@@ -1,0 +1,14 @@
+Build and run the Kekborn Genesis snapshot data pipeline for IMD holders. Data only: deploy, mint or spend nothing, and use no paid APIs.
+
+Snapshot rule: snapshot time T = 2026-11-25T00:00:00Z. On each chain the snapshot block is the last block with a timestamp at or before T.
+
+Steps:
+1. Find the snapshot block on Ethereum and on Robinhood chain by the rule above. Store each block number, block hash and block time in snapshot.json.
+2. Build the holder list of the IMD token (Ethereum 0xd34a99bc0f67ae1bbd63c660e6d0b0dd03e263b7, Robinhood 0x5f7bb59365ce557c26dbcaa4ee9d39a4b95b7127) from its Transfer history up to the snapshot block, with each wallet's balance. Check that balances sum to total supply at that block. Merge wallets across chains. Use public RPCs or free indexers.
+3. For each holder, gather its IMD history from the IMD API at api.imd.fun: orders the wallet paid for, job details and results, goals, seats and earnings. Only orders created before T count. Save the collected records as JSON data files in sources/, one file per source and wallet.
+4. Normalise into holders.csv (wallet, balance per chain, total) and jobs.csv (job id, wallet, created, status completed/abandoned/failed/ongoing, category code-contracts/research/audit/website-product/oracle-indexer/multi-agent-goal, parent goal id, IMD spent, deliverables, quality signals). Each job appears once; goal child jobs link to their goal and are not counted twice.
+5. Never guess. Jobs or orders that cannot be linked to a wallet go to unlinked.csv with the reason. Wallets that hit the API's 100-order limit are flagged.
+6. Scoring module driven by scoring.json: weights for completed jobs, IMD spent, category diversity, scope, successful deliverables, quality signals and goal participation. Ship provisional default weights, clearly marked as provisional, so the final formula can replace them without re-collecting data. Balance alone is never the score.
+7. Rarity: five tiers (Common, Uncommon, Rare, Epic, Legendary) by natural breaks over the score distribution, not fixed percentages. Genetics per wallet from job categories: code-contracts = problem-solving, technical aptitude; research = memory, perception, analysis; audit = defence, resilience; website-product = creativity, adaptability; oracle-indexer = perception, information processing; multi-agent-goal = rare special combinations. Write scores.csv (wallet, score, tier, genetics).
+8. Make the pipeline cached, retrying and deterministic: a second run over the saved sources yields identical CSVs. Include tests.
+9. Deliver: source code, README with how to rerun it, snapshot.json, sources/, holders.csv, jobs.csv, unlinked.csv, scoring.json, scores.csv, data-accessibility.md (what data exists, what is missing, other ways to verify) and manifest.json with the sha256 of every file.
