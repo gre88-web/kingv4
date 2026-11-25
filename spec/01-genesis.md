@@ -88,28 +88,90 @@ Job categories seed initial genetic attributes:
 Genetics drive appearance and may influence gameplay. No pay-to-win: rarity represents
 history; long-term success depends on gameplay and adaptation.
 
-## 5. Artwork
+## 5. Artwork — one style: painted medieval dynasty portrait
 
-Generate unique procedural artwork for every eligible wallet from its score, rarity and
-genetics. Consistent identity inspired by Pepe and Spore, with large variation between
-creatures. Generation is seeded and deterministic (same inputs + seed = same image), so
-an approved image can be reproduced exactly.
+Every Kekborn is a **painted medieval court portrait in a frame**, like a dynasty
+portrait hanging in a castle hall. One style for the whole collection; individuals vary
+only through trait layers. Generation is seeded and deterministic (same inputs + seed =
+same image), so an approved image can be reproduced exactly.
 
-Every Genesis Pepe has: unique token ID, unique Genesis identity, intended original
+### 5.1 Fixed style rules (identical for every token)
+
+- **Subject:** an original anthropomorphic frog noble. Inspired by meme-frog culture,
+  but its own design; do not reproduce Matt Furie's Pepe character.
+- **Pose and crop:** head and shoulders, three-quarter view facing left, eyes at the
+  same height on every portrait. One shared bust template that every layer aligns to.
+- **Rendering:** oil-painting look — visible brushwork, soft chiaroscuro light from the
+  upper left, warm varnish tone, fine craquelure texture. No flat vector, no pixel art,
+  no photo realism.
+- **Palette:** muted earth tones, deep greens, oxblood, ochre, gold leaf. Skin colours
+  come from a fixed list of painted greens and rare skins.
+- **Canvas:** 4:5 portrait, master at 2048×2560 PNG, inside the frame.
+- **Background:** dark painted backdrop with a heraldic banner or tapestry behind the
+  sitter in the dynasty's colours.
+
+### 5.2 Rarity is shown by the frame and regalia, not a different style
+
+| Tier | Frame | Regalia |
+|---|---|---|
+| Common | plain dark wood | simple cloth, no headwear or a hood |
+| Uncommon | carved oak | brooch, fur collar |
+| Rare | silver | chain of office, circlet |
+| Epic | gilded gold | crown, rich robes, jewels |
+| Legendary | ornate gold with gems and a name plaque | high crown, mantle, faint holy glow |
+
+### 5.3 Genetics are shown by attire and props
+
+| Contribution category | Visual |
+|---|---|
+| Code, smart contracts | scholar's robe, spectacles, quill |
+| Research, reports | monocle, scroll, candle |
+| Audits | plate armour, shield on the banner |
+| Websites, products | artisan's or painter's garb, brush |
+| Oracles, indexers | seer's hood, crystal orb |
+| Multi-agent goals | council sash, signet ring, rare combined props |
+
+Personality traits set the facial expression (smug, paranoid side-eye, serene, scowl,
+dim grin) and small details (a stolen pastry for Goblin Mode, drool for Professional
+Napper, etc.).
+
+### 5.4 Coat of arms
+
+Each Kekborn gets a procedurally generated coat of arms (tincture, division, ordinary,
+charge such as a frog, lilypad, crown or fly), rendered in the same painted style on the
+banner and as a small shield on the frame. It becomes the dynasty's arms for all
+descendants.
+
+### 5.5 How it is produced
+
+1. Paint a **layer library** in the fixed style, all aligned to the bust template:
+   base frog bodies and skins, eyes, expressions, attire, headwear and regalia, props,
+   backgrounds, banners, frames, coats-of-arms parts. Transparent PNGs.
+2. A deterministic **compositor** picks layers from tier, genetics and traits using
+   `seed = sha256(wallet + artSeed)` and composites them, then applies one shared
+   finishing pass (varnish tone, craquelure, frame shadow) so every portrait matches.
+3. **Style lock:** before generating the full collection, deliver the style guide, the
+   layer library and 12 sample portraits (covering all five tiers) to the project owner.
+   Full generation starts only after the owner approves the style.
+4. Regeneration rerolls `artSeed` only: different layer choices within the same tier,
+   genetics and traits, never a different style.
+
+Every Genesis Kekborn has: unique token ID, unique Genesis identity, intended original
 owner wallet, rarity, contribution score, genetic attributes, individual visual
 characteristics, initial character traits, personality profile, snapshot reference,
 permanent Genesis status.
 
 ## 6. Metadata and provenance
 
-Structured metadata per Pepe, created before minting:
+Structured metadata per Kekborn, created before minting:
 
 - Genesis ID; proposed token ID; intended original wallet.
 - Rarity tier; contribution score; contribution categories.
 - Genetic attributes; initial character traits; personality profile.
 - Snapshot timestamp and block number.
-- Original artwork (content hash / IPFS CID).
-- Collection identifier: `Kekborn Genesis`.
+- Original artwork (content hash / IPFS CID), art seed, and the list of layers used.
+- Coat of arms.
+- Collection: `Kekborn`; token name `Kekborn #<tokenId>`; trait `Generation: Genesis`.
 
 Original Genesis attributes and traits are never overwritten. Evolution appends new
 traits and history. Use decentralized storage where appropriate. The files shown for
@@ -127,10 +189,11 @@ Workflow:
 2. Verify eligible wallets.
 3. Calculate contribution scores.
 4. Determine rarity and genetics.
-5. Generate artwork and initial traits.
+5. Style lock: owner approves the style guide, layer library and samples (§5.5).
+   Then generate all artwork and initial traits.
 6. Create and validate metadata.
 7. Present the whole collection in a visual approval dashboard.
-8. Owner inspects every Pepe: artwork, rarity, score, genetics, traits.
+8. Owner inspects every Kekborn: artwork, rarity, score, genetics, traits.
 9. Per-NFT approval checkbox/action.
 10. Approve the whole collection in one action, or individually.
 11. Reject individual designs and request regeneration.
@@ -139,7 +202,7 @@ Workflow:
 13. After approval: contract deployment, minting and distribution, subject to wallet
     authorization.
 
-Dashboard contents: full preview of every Pepe, recipient wallet, proposed token ID,
+Dashboard contents: full preview of every Kekborn, recipient wallet, proposed token ID,
 rarity, score, genetics, traits and personality, approval checkbox, status, reject and
 regenerate, collection-wide overview.
 

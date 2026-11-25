@@ -34,7 +34,7 @@ snapshot; contribution scores; rarity; artwork; initial traits and personalities
 metadata; approval dashboard with individual and collection-wide approval;
 regeneration of rejected art; deployment authorization; mint and distribute.
 
-**Priority 2 — Playable prototype.** Primordial world; Genesis Pepe creation; basic
+**Priority 2 — Playable prototype.** Primordial world; Genesis Kekborn creation; basic
 genome; ≥50 traits (full 300 designed); procedural creatures; character sheets;
 personality and behaviour; feeding, movement, survival; reproduction and mutation;
 natural selection; basic inheritance; persistent identity; multiplayer-ready

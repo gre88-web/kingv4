@@ -1,6 +1,6 @@
 # 02 — Character System, Genetics and Personality (Phase 1)
 
-One of the most important systems. Every Pepe has a rich character sheet inspired by
+One of the most important systems. Every Kekborn has a rich character sheet inspired by
 dynastic character simulation. Not just generic stats: distinctive strengths,
 weaknesses, virtues, vices, peculiarities and funny behaviour.
 
@@ -73,9 +73,9 @@ behaviour, not just be cosmetic):
 | Legendary Coward | Runs from almost everything |
 | Deluxe Couch Potato | Avoids physical activity |
 | Secretly Based | Occasionally makes unexpectedly brilliant decisions |
-| Walking Red Flag | Others instinctively distrust this Pepe |
+| Walking Red Flag | Others instinctively distrust this Kekborn |
 | Tax Evader | Avoids contributing to shared resources |
-| Conspiracy Pepe | Sees conspiracies everywhere |
+| Conspiracy Frog | Sees conspiracies everywhere |
 | Unemployed Philosopher | Spends all day on the meaning of life |
 | Royal Blood, Empty Head | Believes ancestry makes them superior |
 | Absolute Menace | Creates problems wherever they go |
@@ -119,8 +119,8 @@ Offspring inherit a combination of both parents' genetic and character traits.
 Rules: never copy all parental traits. Use probabilities, dominance, gene combination
 and mutation. Recessive rare traits appear only with the right combination and can
 skip generations. Incompatible or contradictory combinations are allowed and should
-produce emergent personalities — an intelligent Pepe with terrible judgement, a
-cowardly military genius, a charismatic liar, a lazy genius, a generous Pepe who is
+produce emergent personalities — an intelligent Kekborn with terrible judgement, a
+cowardly military genius, a charismatic liar, a lazy genius, a generous Kekborn who is
 greedy about food, a legendary warrior terrified of insects.
 
 ## 5. Life experience
@@ -133,7 +133,7 @@ some permanent. Important events go into the character's history log.
 
 ## 6. Dynasties and family trees
 
-Every Pepe belongs to a traceable lineage: parents, children, siblings, ancestors,
+Every Kekborn belongs to a traceable lineage: parents, children, siblings, ancestors,
 descendants, multiple generations, family traits, dynasty reputation, achievements,
 famous ancestors, rivalries, hereditary leadership, inherited titles.
 

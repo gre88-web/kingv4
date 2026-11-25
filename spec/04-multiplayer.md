@@ -27,7 +27,7 @@ Friendships, rivalries, romance, family ties, enmities, alliances, betrayals, lo
 jealousy, respect, fear, admiration — stored as per-pair opinion values with typed
 modifiers that decay over time.
 
-Traits drive relationships: paranoid Pepes distrust loyal friends; charismatic ones
+Traits drive relationships: paranoid Kekborn distrust loyal friends; charismatic ones
 attract followers; greedy ones betray allies for resources; loyal ones defend family at
 great cost; professional haters form rivalries for no reason.
 

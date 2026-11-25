@@ -2,7 +2,7 @@
 
 ## 1. Genetics
 
-Every Pepe has a unique permanent genetic identity. The procedural genetics system
+Every Kekborn has a unique permanent genetic identity. The procedural genetics system
 supports: genome, inherited characteristics, mutations, physical and behavioural
 attributes, intelligence, memory, perception, movement, strength, speed, environmental
 adaptation, reproduction.

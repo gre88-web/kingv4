@@ -2,7 +2,7 @@
 
 *Born of Kek. Bound by Blood.*
 
-The Evolution of a Living Pepe Civilization.
+The Evolution of a Living Frog Civilization.
 IMD Genesis Collection, artificial-life simulation and multiplayer evolutionary game.
 
 This folder is the authoritative requirements document for Kekborn. IMD jobs and
@@ -14,10 +14,12 @@ spec is the requirements source those steps are checked against.
 | Thing | Name |
 |---|---|
 | Game and collection | **Kekborn** |
-| First NFT drop (IMD holders) | **Kekborn Genesis** |
-| Individual Genesis NFT / creature | Genesis Pepe |
-| Holders and their lineages | the Kekborn |
+| NFT collection | **Kekborn** (symbol `KEKBORN`) |
+| Each NFT | **Kekborn #1, #2, …** |
+| One creature / many creatures | a Kekborn / the Kekborn |
+| First drop (IMD holders) | metadata trait `Generation: Genesis`; offspring later are `Generation: 2`, `3`, … |
 | The world | **Kekheim** |
+| Art style | one style: painted medieval dynasty portrait in a frame (01-genesis.md §5) |
 | Tagline | *Born of Kek. Bound by Blood.* |
 
 ## Modules
@@ -36,12 +38,13 @@ spec is the requirements source those steps are checked against.
 
 ## Core vision
 
-Every eligible IMD holder receives one unique Genesis Pepe NFT. Each Genesis Pepe starts
+Every eligible IMD holder receives one unique Kekborn NFT (`Generation: Genesis`). Each
+Genesis Kekborn starts
 an evolutionary lineage. Through biological evolution, environmental adaptation,
 reproduction, social interaction and technology, lineages become different species,
 tribes, dynasties and civilizations, and eventually reach space.
 
-Every Pepe has an individual personality and character sheet: traits, strengths,
+Every Kekborn has an individual personality and character sheet: traits, strengths,
 weaknesses, virtues, vices, quirks and inherited characteristics, inspired by the
 dynasty systems of Crusader Kings. Evolution is inspired by Spore. All names, art,
 text and trait descriptions are original Kekborn work.
