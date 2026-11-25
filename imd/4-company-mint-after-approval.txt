@@ -1,0 +1,19 @@
+Launch the Kekborn NFT collection: an ERC-721 contract plus a claim website. Run this only after the project owner has approved the artwork and metadata.
+
+Requirements source (implement against, pinned): https://github.com/gre88-web/kingv4 at commit 0325909ca3f6dbabfad6c90f1bc68ed068df304e, files spec/01-genesis.md (sections 6-8), spec/07-blockchain-economy.md, spec/09-security.md.
+
+Inputs: the owner-signed approval manifest (token ID, wallet, metadata sha256) and the approved metadata and portrait PNGs. Use them byte for byte. Change no artwork, tier, score, genetics or traits.
+
+Contract:
+1. ERC-721, name "Kekborn", symbol "KEKBORN". Token names "Kekborn #<tokenId>". One Genesis token per eligible wallet.
+2. Claim by Merkle proof: leaf = (tokenId, wallet, metadataHash). Only that wallet can claim that token. Unclaimed tokens stay reserved for their wallet forever.
+3. tokenURI points to the pinned metadata. Genesis metadata is immutable: no setter for it.
+4. Store the snapshot block numbers, snapshot manifest hash and approval manifest hash on-chain.
+5. No token, no fees, no royalties logic, no upgradeability, no admin mint beyond the Merkle list.
+6. Full tests, including wrong wallet, double claim, wrong proof.
+
+Website, in the same medieval painted style:
+1. Connect wallet, show the wallet's Kekborn portrait, tier, score, genetics, traits and coat of arms, and a claim button.
+2. Collection gallery ("hall of portraits") and a provenance page with snapshot, methodology and both manifest hashes.
+
+Never ask for private keys or seed phrases. Any deploy or transaction is signed by the owner's wallet.

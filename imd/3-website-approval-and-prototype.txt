@@ -1,0 +1,24 @@
+Build the Kekborn approval dashboard and a playable Cell-stage prototype as one static browser site. Deploy no contracts and mint nothing.
+
+Requirements source (implement against, pinned): https://github.com/gre88-web/kingv4 at commit 0325909ca3f6dbabfad6c90f1bc68ed068df304e, files spec/01-genesis.md (sections 5-7), spec/02-characters.md, spec/03-evolution.md (Stage 1), spec/06-website.md.
+
+Inputs: scores.csv from the snapshot (wallet, score, tier, genetics) and the owner-approved layer library and compositor. If an input is missing, use clearly labelled sample data and say so.
+
+Part A, portraits and approval:
+1. For every wallet run the approved compositor to render its framed painted portrait PNG. Do not change the style, layers or finishing pass.
+2. Generate 5-8 starting traits and a personality per Kekborn, deterministic from seed = sha256(wallet + artSeed).
+3. Metadata JSON per token with every field in spec 01 section 6: name "Kekborn #<tokenId>", trait Generation: Genesis, art seed, layers used, coat of arms, PNG sha256.
+4. Dashboard: grid and detail view showing portrait, wallet, token ID, tier, score, genetics, traits, coat of arms. Per-NFT approve checkbox, reject, request regeneration, approve all. Statuses: pending, approved, rejected, regeneration requested, regenerated awaiting approval.
+5. Regeneration rerolls artSeed only. Tier, score, genetics, traits and style stay locked.
+6. Export an approval manifest (token ID, metadata sha256, status) the owner can sign with their wallet.
+
+Part B, playable prototype:
+1. Deterministic seeded simulation of a primordial world: food, energy, movement, predators, survival.
+2. Genome with mutation; reproduction combining two parents; natural selection.
+3. At least 50 traits from spec 02, data-driven JSON, each with effects that change behaviour, including funny ones.
+4. Basic inheritance: genetic, partial, learned, temporary; dominant and recessive.
+5. Character sheet in a medieval style with the portrait, stats, traits, tooltips; family tree for 3+ generations.
+6. Save and load world state; same seed gives the same run.
+7. Tests proving determinism and inheritance rules.
+
+Deliver source code, the built site and a README.
