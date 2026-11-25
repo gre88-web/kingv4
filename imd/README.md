@@ -7,7 +7,7 @@ characters, so each one fits any IMD objective field.
 |---|---|---|---|---|
 | 1a | `1-goal-genesis.txt` | Goal objective: orchestrated, `researchOnly: true`, workers 50, maxItems 50, maxEpisodes 5 | 2,503 | 3,000 |
 | 1b | `1b-job-snapshot-data.txt` | Job objective (code job): builds and runs the snapshot pipeline | 2,835 | 8,000 |
-| 2 | `2-art-style-lock.txt` | Job objective (image / build job) | 2,285 | 8,000 |
+| 2 | `2-art-style-lock.txt` | Job objective (image / build job) | 2,099 | 8,000 |
 | 3 | `3-website-approval-and-prototype.txt` | Website job objective | 2,210 | 8,000 |
 | 4 | `4-company-mint-after-approval.txt` | Company (launch) objective, **only after you approve all art** | 1,624 | 8,000 |
 
@@ -35,16 +35,16 @@ IMD does not let you upload your own skill: the `skill` field only takes IDs fro
 built-in catalog, and Goals have no skill or file field at all. So the full spec lives in
 this repo, in `spec/`.
 
-- **Step 1 (Goal) is self-contained:** it carries every rule it needs and pins no file.
+- **Steps 1a, 1b and 2 are self-contained:** they carry every rule they need and pin no file.
   IMD screens a pinned file like the objective itself, and earlier versions were refused
   because the spec's wording read as a request for verbatim command output.
-- **Steps 2–4** each write their own concrete steps (IMD refuses work that is just "go
+- **Steps 3–4** each write their own concrete steps (IMD refuses work that is just "go
   read this URL and do what it says": `remote_instructions`) and name the spec as the requirements source to implement against, pinned to commit
   `3f68cbcccaf88ff3fce3f30964ca68f5ade01e18`, so the agents read exactly the version
   you wrote.
 
 The repository must be **public** for IMD agents to read it. If you edit the spec, commit,
-then update the commit hash in prompts 2–4.
+then update the commit hash in prompts 3–4.
 
 ## Approval gate
 

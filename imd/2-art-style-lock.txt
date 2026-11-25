@@ -1,7 +1,5 @@
 Create the Kekborn portrait style guide, painted layer library and 12 sample portraits for owner approval. Deploy, mint and spend nothing.
 
-Requirements source (implement against, pinned): https://github.com/gre88-web/kingv4 at commit 3f68cbcccaf88ff3fce3f30964ca68f5ade01e18, file spec/01-genesis.md section 5 (5.1 to 5.5).
-
 Style, identical on every portrait: painted medieval court portrait of an original anthropomorphic frog noble, in a frame. Oil-painting look, visible brushwork, soft light from the upper left, warm varnish, fine craquelure. Head and shoulders, three-quarter view facing left, 4:5, master 2048x2560. Muted earth tones, deep greens, oxblood, ochre, gold leaf. Dark backdrop with a heraldic banner. Do not reproduce Matt Furie's Pepe; the frog is its own design.
 
 Steps:
