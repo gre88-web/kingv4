@@ -7,7 +7,7 @@ characters, so each one fits any IMD objective field.
 |---|---|---|---|---|
 | 1a | `1-goal-genesis.txt` | Goal objective: orchestrated, `researchOnly: true`, workers 50, maxItems 50, maxEpisodes 5 | 2,503 | 3,000 |
 | 1b | `1b-job-snapshot-data.txt` | Job objective (code job): builds and runs the snapshot pipeline | 2,835 | 8,000 |
-| 2 | `2-art-style-lock.txt` | Job objective (image / build job) | 2,099 | 8,000 |
+| 2 | `2-art-style-lock.txt` | Goal or job objective: art v2, image-model-painted layers on the existing compositor repo | 2,873 | 8,000 |
 | 3 | `3-website-approval-and-prototype.txt` | Website job objective | 2,210 | 8,000 |
 | 4 | `4-company-mint-after-approval.txt` | Company (launch) objective, **only after you approve all art** | 1,624 | 8,000 |
 

@@ -19,7 +19,7 @@ spec is the requirements source those steps are checked against.
 | One creature / many creatures | a Kekborn / the Kekborn |
 | First drop (IMD holders) | metadata trait `Generation: Genesis`; offspring later are `Generation: 2`, `3`, … |
 | The world | **Kekheim** |
-| Art style | one style: painted medieval dynasty portrait in a frame (01-genesis.md §5) |
+| Art style | one style: Tudor court oil portrait in a frame, Pepe-like face of its own design (01-genesis.md §5) |
 | Tagline | *Born of Kek. Bound by Blood.* |
 
 ## Modules
