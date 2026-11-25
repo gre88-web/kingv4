@@ -1,13 +1,13 @@
-# IMD prompts for PEPEVERSE
+# IMD prompts for Kekborn
 
 Paste each `.txt` file as-is into the IMD field below. Every file is under 3,000
 characters, so each one fits any IMD objective field.
 
 | File | Where | Chars | IMD limit |
 |---|---|---|---|
-| `1-goal-genesis.txt` | Goal objective (research-only goal) | 2,135 | 3,000 |
-| `2-website-approval-and-prototype.txt` | Website job objective | 2,043 | 8,000 |
-| `3-company-mint-after-approval.txt` | Company (launch) objective, **only after you approve the art** | 1,502 | 8,000 |
+| `1-goal-genesis.txt` | Goal objective (research-only goal) | 2,133 | 3,000 |
+| `2-website-approval-and-prototype.txt` | Website job objective | 2,041 | 8,000 |
+| `3-company-mint-after-approval.txt` | Company (launch) objective, **only after you approve the art** | 1,498 | 8,000 |
 
 Run them in order: 1 → review the snapshot → 2 (feed it `scores.csv`) → approve art in
 the dashboard → 3.
@@ -21,7 +21,7 @@ this repo, in `spec/`, and each prompt:
 - writes its own concrete steps (IMD refuses work that is just "go read this URL and do
   what it says": `remote_instructions`), and
 - names the spec as the requirements source to implement against, pinned to commit
-  `cbef28ee95096562e90693b0b9aeb169ed19d29e` (plus a sha256 for the Genesis file), so the
+  `aa1a5500f170937d66d3b1ea6a28a31fa4895cca` (plus a sha256 for the Genesis file), so the
   agents read exactly the version you wrote.
 
 The repository must be **public** for IMD agents to read it. If you edit the spec, commit,

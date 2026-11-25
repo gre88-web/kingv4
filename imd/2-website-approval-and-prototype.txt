@@ -1,6 +1,6 @@
-Build the PEPEVERSE Genesis approval dashboard and a playable Cell-stage prototype as one static browser site. Deploy no contracts and mint nothing.
+Build the Kekborn Genesis approval dashboard and a playable Cell-stage prototype as one static browser site. Deploy no contracts and mint nothing.
 
-Requirements source (implement against, pinned): https://github.com/gre88-web/kingv4 at commit cbef28ee95096562e90693b0b9aeb169ed19d29e, files spec/01-genesis.md (sections 5-7), spec/02-characters.md, spec/03-evolution.md (Stage 1), spec/06-website.md.
+Requirements source (implement against, pinned): https://github.com/gre88-web/kingv4 at commit aa1a5500f170937d66d3b1ea6a28a31fa4895cca, files spec/01-genesis.md (sections 5-7), spec/02-characters.md, spec/03-evolution.md (Stage 1), spec/06-website.md.
 
 Part A, Genesis art and approval:
 1. Load the snapshot scores.csv (wallet, score, tier, genetics). If not supplied, use clearly labelled sample data.

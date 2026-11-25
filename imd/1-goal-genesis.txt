@@ -1,6 +1,6 @@
-PEPEVERSE Genesis snapshot and scoring. Research and data only: deploy, mint or spend nothing.
+Kekborn Genesis snapshot and scoring. Research and data only: deploy, mint or spend nothing.
 
-Source of requirements (read and implement against): https://raw.githubusercontent.com/gre88-web/kingv4/cbef28ee95096562e90693b0b9aeb169ed19d29e/spec/01-genesis.md (sha256 3b36c84e8185f5a068dcd5bbe710712ba24048ff3bfc4707cfad204b317472f6), sections 1-4 and 6.
+Source of requirements (read and implement against): https://raw.githubusercontent.com/gre88-web/kingv4/aa1a5500f170937d66d3b1ea6a28a31fa4895cca/spec/01-genesis.md (sha256 deeccd7f6b1dd5fae8fbff8acb5e679fb437903a31d7685d5fafbcb9efa525c4), sections 1-4 and 6.
 
 Steps:
 1. Fix a snapshot block on Ethereum and on Robinhood chain. Record block number and UTC timestamp for each.
