@@ -1,16 +1,14 @@
-Kekborn Genesis snapshot and scoring. Research and data only: deploy, mint or spend nothing.
-
-Source of requirements (read and implement against): https://raw.githubusercontent.com/gre88-web/kingv4/e87d7803a8917be499cfa3b4b3cf6c2c7eab01df/spec/01-genesis.md (sha256 fe30718c52ac3a0e040cf38b5678908fd2a3932fe528eaeda2cbf0253a5911ec), sections 1-4 and 6.
+Kekborn Genesis snapshot and scoring for IMD holders. Research and data only: deploy, mint or spend nothing.
 
 Steps:
-1. Fix a snapshot block on Ethereum and on Robinhood chain. Record block number and UTC timestamp for each.
-2. Build the holder list for the IMD token (Ethereum 0xd34a99bc0f67ae1bbd63c660e6d0b0dd03e263b7, Robinhood 0x5f7bb59365ce557c26dbcaa4ee9d39a4b95b7127) with each wallet's balance at the snapshot block, from on-chain reads. Merge wallets across chains.
-3. For every holder, collect IMD job history from api.imd.fun (requests/paid-by/:address, jobs/:id incl. paidBy, result, records, goals, seats, earnings). Only include orders created before the snapshot timestamp.
-4. Classify each job: completed, abandoned, failed or ongoing; category (code/contracts, research, audit, website/product, oracle/indexer, multi-agent goal); scope; deliverables; quality signals. Count each job once; do not double count goal children.
-5. Never guess. Where a job cannot be linked to a wallet, list it as unlinked and explain why.
-6. Define a transparent Genesis Contribution Score from the factors in the spec. Balance alone must not be the score. Publish the formula and a script that recomputes it from the saved source datasets.
-7. Assign five rarity tiers (Common, Uncommon, Rare, Epic, Legendary) from the score distribution itself (e.g. natural breaks), not fixed percentages. Explain the cut points.
-8. Derive genetic tendencies per wallet from job categories per the mapping table in the spec.
-9. Deliver these files: sources/ (the collected API and chain records saved as JSON data, one file per source), holders.csv, jobs.csv, scores.csv (wallet, balance, jobs by status and category, IMD spent, score, tier, genetics), methodology.md, data-accessibility.md (what is available, what is missing, alternative verification) and manifest.json listing every file with its sha256.
+1. Choose one snapshot block on Ethereum and one on Robinhood chain. Store each block number and its UTC time in snapshot.json.
+2. Build the holder list of the IMD token (Ethereum 0xd34a99bc0f67ae1bbd63c660e6d0b0dd03e263b7, Robinhood 0x5f7bb59365ce557c26dbcaa4ee9d39a4b95b7127) with each wallet's balance at the snapshot block, from on-chain data. Merge wallets across chains.
+3. For each holder, gather its IMD job history from the IMD API at api.imd.fun: orders the wallet paid for, job details and results, goals, seats and earnings. Only orders created before the snapshot time count.
+4. Classify each job by status (completed, abandoned, failed, ongoing) and category (code/contracts, research, audit, website/product, oracle/indexer, multi-agent goal), with scope, deliverables and quality signals. Count each job once; goal child jobs are not counted twice.
+5. Never guess. A job that cannot be linked to a wallet is listed as unlinked, with the reason.
+6. Design a transparent Genesis Contribution Score from: completed jobs, IMD spent, category diversity, scope and complexity, successful deliverables, quality signals and multi-agent goal participation. Balance alone is not the score. Write the formula in methodology.md and a script that recomputes every score from the saved datasets.
+7. Set five rarity tiers (Common, Uncommon, Rare, Epic, Legendary) from the score distribution itself, e.g. natural breaks, not fixed percentages. Explain the cut points.
+8. Give each wallet genetic tendencies from its job categories: code/contracts = problem-solving, technical aptitude; research = memory, perception, analysis; audits = defence, resilience; websites/products = creativity, adaptability; oracles/indexers = perception, information processing; multi-agent goals = rare special combinations.
+9. Deliver: sources/ (the collected records as JSON data, one file per source), snapshot.json, holders.csv, jobs.csv, scores.csv (wallet, balance, jobs by status and category, IMD spent, score, tier, genetics), methodology.md, data-accessibility.md (what is available, what is missing, other ways to verify) and manifest.json with the sha256 of every file.
 
-The snapshot is final once written. Treat it as immutable input for all later work.
+The snapshot is final once written and is the fixed input for all later Kekborn work.
