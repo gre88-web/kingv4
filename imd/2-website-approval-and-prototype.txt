@@ -1,0 +1,23 @@
+Build the PEPEVERSE Genesis approval dashboard and a playable Cell-stage prototype as one static browser site. Deploy no contracts and mint nothing.
+
+Requirements source (implement against, pinned): https://github.com/gre88-web/kingv4 at commit cbef28ee95096562e90693b0b9aeb169ed19d29e, files spec/01-genesis.md (sections 5-7), spec/02-characters.md, spec/03-evolution.md (Stage 1), spec/06-website.md.
+
+Part A, Genesis art and approval:
+1. Load the snapshot scores.csv (wallet, score, tier, genetics). If not supplied, use clearly labelled sample data.
+2. Generate one procedural SVG Pepe per wallet from a seed = hash(wallet + artSeed). Tier and genetics drive body shape, colour, eyes, limbs and accessories. Same inputs must produce the same SVG.
+3. Generate 5-8 starting traits and a personality per Pepe, deterministic from the same seed.
+4. Build metadata JSON per Pepe with every field in spec 01 section 6, plus the SVG sha256.
+5. Dashboard: grid and detail view showing art, wallet, token ID, tier, score, genetics, traits. Per-NFT approve checkbox, reject, request regeneration, approve all. Statuses: pending, approved, rejected, regeneration requested, regenerated awaiting approval.
+6. Regeneration changes only artSeed. Tier, score, genetics and traits stay locked.
+7. Export an approval manifest (token ID, metadata sha256, status) the owner can sign with their wallet.
+
+Part B, playable prototype:
+1. Deterministic seeded simulation of a primordial world: food, energy, movement, predators, survival.
+2. Genome with mutation; reproduction combining two parents; natural selection.
+3. At least 50 traits from spec 02, data-driven JSON, each with effects that change behaviour, including funny ones.
+4. Basic inheritance: genetic, partial, learned, temporary; dominant and recessive.
+5. Character sheet with stats, traits, tooltips; family tree for 3+ generations.
+6. Save and load world state; same seed gives the same run.
+7. Tests proving determinism and inheritance rules.
+
+Deliver source code, the built site and a README.

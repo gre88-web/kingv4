@@ -1,0 +1,19 @@
+Launch the PEPEVERSE Genesis NFT collection: an ERC-721 contract plus a claim website. Run this only after the project owner has approved the artwork and metadata.
+
+Requirements source (implement against, pinned): https://github.com/gre88-web/kingv4 at commit cbef28ee95096562e90693b0b9aeb169ed19d29e, files spec/01-genesis.md (sections 6-8), spec/07-blockchain-economy.md, spec/09-security.md.
+
+Inputs: the owner-signed approval manifest (token ID, wallet, metadata sha256) and the approved metadata and SVG files. Use them byte for byte. Change no artwork, tier, score, genetics or traits.
+
+Contract:
+1. ERC-721 "PEPEVERSE Genesis". One token per eligible wallet.
+2. Claim by Merkle proof: leaf = (tokenId, wallet, metadataHash). Only that wallet can claim that token. Unclaimed tokens stay reserved for their wallet forever.
+3. tokenURI points to the pinned metadata. Genesis metadata is immutable: no setter for it.
+4. Store the snapshot block numbers, snapshot manifest hash and approval manifest hash on-chain.
+5. No token, no fees, no royalties logic, no upgradeability, no admin mint beyond the Merkle list.
+6. Full tests, including wrong wallet, double claim, wrong proof.
+
+Website:
+1. Connect wallet, show the wallet's Genesis Pepe, its art, tier, score, genetics and traits, and a claim button.
+2. Collection page and provenance page with snapshot, methodology and both manifest hashes.
+
+Never ask for private keys or seed phrases. Any deploy or transaction is signed by the owner's wallet.
