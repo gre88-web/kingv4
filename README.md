@@ -13,9 +13,45 @@ listing was announced.
 | **Exchange APIs** | Robinhood `currency_pairs`, Coinbase currencies + products, Kraken assets | Assets often appear as *untradable* / *trading disabled* before launch; the flip to tradable is the listing |
 | **Onchain** | Labeled wallets (market makers, exchanges, teams) via `eth_getLogs` | Market makers take inventory before a listing |
 
-When a code or exchange signal names a contract address, the radar immediately checks
-`balanceOf` on every watched wallet on that chain ("BitGo just added X, and Wintermute
-already holds 3M X").
+When a code or exchange signal names a contract address, two follow-ups start:
+
+- **Holdings check:** `balanceOf` on every watched wallet on that chain ("BitGo just
+  added X, and Wintermute already holds 3M X").
+- **Pool watch:** the token goes on a 45-day watchlist. Any new DEX pool for it alerts
+  with the DEX, the pair, the fee and the starting liquidity. Supported: Uniswap V2/V3/V4,
+  Aerodrome (classic and Slipstream), PancakeSwap and any fork that emits the same events,
+  including Clanker/Zora-style hooked V4 pools. Pools are matched by token, not by factory,
+  so DEXes nobody has labeled yet are still caught.
+
+## Wallet discovery: who keeps buying early?
+
+The onchain watcher is only as good as its wallet list. `radar discover` builds one from
+evidence. For each past listing it takes every transfer of the token in the window
+before the announcement. It keeps wallets that ended the window holding more than they
+started with, and drops pools, contracts, mints and sellers. Each wallet is scored on how
+early it bought, how big the position was (log-scaled against the median holder), and
+whether it bought from a pool. Wallets that turn up across *several* listings rise to
+the top.
+
+```bash
+radar discover                                   # listings.yaml + listings `radar run` has observed
+radar discover --min-events 2 --out wallets.discovered.yaml
+```
+
+Then review `wallets.discovered.yaml` and add it to `wallet_files` in `config.yaml`.
+Those wallets are now tracked with kind `smart_money`.
+
+Listings come from `listings.yaml` (Cash Cat is pre-filled) and from the radar's own
+history: whenever Robinhood, Coinbase or Kraken flips a token to tradable, that becomes
+a listing event. Robinhood and Kraken report only tickers, so the contract address is
+looked up in the BitGo snapshot. The list of discovery inputs grows as the radar runs.
+
+Scans are cached per token and window, so re-ranking is instant. The first scan can be
+large: Cash Cat had about 370k transfers in just the 2 days before its listing. That took
+about 4 minutes on the public Robinhood Chain RPC. On Base, use a paid RPC for this.
+
+With a single listing you get its biggest early accumulators. That includes regular
+traders, so the ranking becomes meaningful once there are 3 or more listings.
 
 ## Does it work? A backtest on BitGo's history
 
@@ -54,6 +90,7 @@ radar check               # probes every RPC and endpoint
 radar run                 # first pass records a baseline silently, then alerts on changes
 radar candidates          # tokens ranked by combined evidence
 radar signals --days 3    # raw signal log
+radar discover            # find wallets that bought early before past listings
 ```
 
 `python -m radar ...` works without installing.
@@ -84,6 +121,8 @@ Each signal has a weight:
 | Exchange asset becomes tradable | 5 |
 | Market maker / exchange wallet first-seen | 3 |
 | Market maker sent the token, tx signed by the wallet | 4 |
+| Discovered smart-money wallet first-seen | 2.5 |
+| New DEX pool for a flagged token | 3 |
 
 Signals about the same token are matched by contract address or by ticker. Common
 tickers such as USDC are ignored. A token's score is the best weight from each source,
@@ -126,6 +165,9 @@ radar/
   watchers/code.py       BitGo-style file snapshots + GitHub commit scanning
   watchers/exchange.py   Robinhood / Coinbase / Kraken listing diffs
   watchers/onchain.py    labeled-wallet ERC-20 flows + holdings check
+  watchers/dex.py        new pools for flagged tokens (Uniswap V2/V3/V4, Aerodrome, forks)
+  discover.py            rank wallets that accumulated before past listings
+  keccak.py              pure-Python keccak256 for event topics
   correlate.py           cross-source scoring
   engine.py              scheduler, follow-up checks, alerting
   backtest.py            replay a git history through the code watcher

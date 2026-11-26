@@ -14,7 +14,7 @@ from .models import Signal
 from .store import Store
 
 COMMON_SYMBOLS = {"USDC", "USDT", "USDT0", "DAI", "WETH", "ETH", "WBTC", "BTC", "USDG", "USD", "EUR", "EURC",
-                  "PYUSD", "CBBTC", "STETH", "WSTETH", "USDE", "FDUSD", "KBTC"}
+                  "PYUSD", "CBBTC", "STETH", "WSTETH", "USDE", "FDUSD", "KBTC", "USDS", "RLUSD"}
 
 SEVERITIES = ["low", "medium", "high"]
 

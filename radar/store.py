@@ -49,6 +49,12 @@ class Store:
         )
         self.db.commit()
 
+    def scan(self, ns_prefix: str, key: str) -> list[tuple[str, Any]]:
+        """All (ns, value) rows whose ns starts with ns_prefix and whose key equals key."""
+        rows = self.db.execute("SELECT ns, value FROM kv WHERE ns LIKE ? AND key = ?",
+                               (ns_prefix + "%", key)).fetchall()
+        return [(r["ns"], json.loads(r["value"])) for r in rows]
+
     # ---- seen -----------------------------------------------------------
     def mark_seen(self, ns: str, item: str) -> bool:
         """Record item; return True if it was not seen before."""

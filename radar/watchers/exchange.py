@@ -80,10 +80,11 @@ class RobinhoodWatcher(SnapshotExchangeWatcher):
         if old is None:
             state = "tradable" if new["tradability"] == "tradable" else "not tradable yet"
             return [self._sig(f"Robinhood: new asset {key} ({new['name']}), {state}",
-                              self.weight + (1 if state == "tradable" else 0), key, detail=new)]
+                              self.weight + (1 if state == "tradable" else 0), key,
+                              detail={**new, "listing": state == "tradable", "venue": "Robinhood"})]
         if old.get("tradability") != "tradable" and new.get("tradability") == "tradable":
             return [self._sig(f"Robinhood: {key} ({new['name']}) became TRADABLE", self.weight + 1, key,
-                              detail={**new, "was": old.get("tradability")})]
+                              detail={**new, "was": old.get("tradability"), "listing": True, "venue": "Robinhood"})]
         return []
 
 
@@ -136,9 +137,11 @@ class CoinbaseProductsWatcher(SnapshotExchangeWatcher):
     def changes(self, key, old, new):
         if old is None:
             note = "trading disabled" if new["trading_disabled"] else new["status"]
-            return [self._sig(f"Coinbase: new product {key} ({note})", self.weight, new["base"], detail=new)]
+            return [self._sig(f"Coinbase: new product {key} ({note})", self.weight, new["base"],
+                              detail={**new, "listing": not new["trading_disabled"], "venue": "Coinbase"})]
         if old.get("trading_disabled") and not new["trading_disabled"]:
-            return [self._sig(f"Coinbase: {key} trading ENABLED", self.weight, new["base"], detail=new)]
+            return [self._sig(f"Coinbase: {key} trading ENABLED", self.weight, new["base"],
+                              detail={**new, "listing": True, "venue": "Coinbase"})]
         return []
 
 
@@ -154,7 +157,8 @@ class KrakenAssetsWatcher(SnapshotExchangeWatcher):
     def changes(self, key, old, new):
         sym = new.get("altname") or key
         if old is None:
-            return [self._sig(f"Kraken: new asset {sym} ({new.get('status')})", self.weight, sym, detail=new)]
+            return [self._sig(f"Kraken: new asset {sym} ({new.get('status')})", self.weight, sym,
+                              detail={**new, "listing": new.get("status") == "enabled", "venue": "Kraken"})]
         if old.get("status") != "enabled" and new.get("status") == "enabled":
             return [self._sig(f"Kraken: {sym} status {old.get('status')} -> enabled", self.weight - 1, sym,
                               detail=new)]

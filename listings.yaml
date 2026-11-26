@@ -1,0 +1,15 @@
+# Past listings for `radar discover`: who accumulated each token before it was listed?
+# listed_at = announcement / trading start (UTC). More listings = better wallet ranking:
+# one listing finds early buyers; several finds wallets that are early *repeatedly*.
+# `radar discover` also adds listings that `radar run` observed (exchange flips to tradable).
+listings:
+  - symbol: CASHCAT
+    chain: robinhood
+    address: "0x020bfc650a365f8bb26819deaabf3e21291018b4"   # from BitGo statics (hoodeth:cashcat)
+    listed_at: 2026-08-06T00:00:00Z                        # reported Robinhood listing date; set exact time if known
+    venue: Robinhood
+  # - symbol: PONS
+  #   chain: robinhood
+  #   address: "0x39dbed3a2bd333467115de45665cc57f813c4571" # BitGo hoodeth:pons (added 2026-08-31)
+  #   listed_at: 2026-09-??T00:00:00Z                       # fill in the real listing date
+  #   venue: ?

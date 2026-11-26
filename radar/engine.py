@@ -11,6 +11,7 @@ from .models import CODE, EXCHANGE, Signal
 from .store import Store
 from .watchers.base import Watcher
 from .watchers.code import CommitWatcher, FileSnapshotWatcher
+from .watchers.dex import DexWatcher
 from .watchers.exchange import EXCHANGES
 from .watchers.onchain import OnchainWatcher
 
@@ -18,6 +19,8 @@ log = logging.getLogger(__name__)
 
 
 def build_watchers(cfg: dict[str, Any]) -> tuple[list[Watcher], dict[str, OnchainWatcher]]:
+    """Returns (all watchers, onchain watchers by chain). DEX watchers are in the list too;
+    find them by type (see dex_watchers)."""
     watchers: list[Watcher] = []
     chains = list((cfg.get("chains") or {}).keys())
 
@@ -57,7 +60,18 @@ def build_watchers(cfg: dict[str, Any]) -> tuple[list[Watcher], dict[str, Onchai
                            interval=ch.get("interval", 60))
         onchain[name] = w
         watchers.append(w)
+        dex = cfg.get("dex") or {}
+        if dex.get("enabled", True) and ch.get("dex", True):
+            watchers.append(DexWatcher(
+                name, w.rpc, max_block_range=ch.get("max_block_range", 1000),
+                confirmations=ch.get("confirmations", 3), backfill_blocks=ch.get("dex_backfill_blocks", 5000),
+                watch_days=dex.get("watch_days", 45), weight=dex.get("weight", 3.0),
+                token_meta=w.token_meta, interval=ch.get("interval", 60)))
     return watchers, onchain
+
+
+def dex_watchers(watchers: list[Watcher]) -> dict[str, DexWatcher]:
+    return {w.chain: w for w in watchers if isinstance(w, DexWatcher)}
 
 
 class Engine:
@@ -70,6 +84,7 @@ class Engine:
             watchers, onchain = build_watchers(cfg)
         self.watchers = watchers
         self.onchain = onchain or {}
+        self.dex = dex_watchers(self.watchers)
         self.min_sev = cfg.get("alert_min_severity", "low")
         self.window = cfg.get("correlation_window_days", 30)
         self.next_due = {w.name: 0.0 for w in self.watchers}
@@ -82,7 +97,10 @@ class Engine:
             out.append(a)
             if severity_at_least(a.severity, self.min_sev):
                 self.alerter.send(a)
-            # A code/exchange signal naming a contract: are the watched wallets already in it?
+            # A code/exchange signal naming a contract: watch it for new DEX pools...
+            if s.kind in (CODE, EXCHANGE) and s.address and s.chain in self.dex:
+                self.dex[s.chain].watch(self.store, s.address, s.symbol, reason=s.title)
+            # ...and check whether the watched wallets are already in it.
             if s.kind in (CODE, EXCHANGE) and s.address and s.chain in self.onchain:
                 try:
                     follow = self.onchain[s.chain].check_holdings(self.store, s.address, trigger=s)

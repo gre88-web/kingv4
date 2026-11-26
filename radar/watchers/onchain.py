@@ -17,7 +17,7 @@ from __future__ import annotations
 
 import logging
 import re
-from typing import Any
+from typing import Any, Iterator
 
 from .. import http
 from ..models import ONCHAIN, Signal
@@ -31,7 +31,7 @@ SPAM_RE = re.compile(r"https?:|www\.|\.(com|io|org|net|xyz|app|gg|site|top|me)\b
                      r"voucher|bonus|\$\s?\d|access|eligible", re.I)
 RANGE_ERR_RE = re.compile(r"range|limit|too many|exceed|10000|response size|timeout", re.I)
 
-KIND_WEIGHT = {"market_maker": 3.0, "exchange": 3.0, "team": 2.0, "fund": 2.5, "other": 1.5}
+KIND_WEIGHT = {"market_maker": 3.0, "exchange": 3.0, "fund": 2.5, "smart_money": 2.5, "team": 2.0, "other": 1.5}
 
 
 def _topic(addr: str) -> str:
@@ -77,6 +77,37 @@ class RPCError(RuntimeError):
     pass
 
 
+def iter_logs(rpc: RPC, frm: int, to: int, flt: dict[str, Any], max_range: int,
+              grow_to: int | None = None, target_results: int = 5000) -> Iterator[list[dict[str, Any]]]:
+    """eth_getLogs over [frm, to], yielded chunk by chunk (so callers can aggregate as they go).
+
+    The chunk halves when the provider rejects the range or result size. When
+    ``grow_to`` is set, each next chunk is resized (x0.5 to x2, up to ``grow_to``) to aim at
+    ``target_results`` logs, for narrow filters (one token) scanned over millions of
+    blocks where providers cap results rather than ranges.
+    """
+    start, step = frm, max_range
+    while start <= to:
+        end = min(to, start + step - 1)
+        try:
+            got = rpc.call("eth_getLogs", [{**flt, "fromBlock": hex(start), "toBlock": hex(end)}])
+        except (RPCError, http.HttpError) as e:
+            if step > 1 and RANGE_ERR_RE.search(str(e)):
+                step = max(1, step // 2)
+                log.debug("shrinking log range to %d (%s)", step, e)
+                continue
+            raise
+        yield got
+        start = end + 1
+        if grow_to:
+            factor = min(2.0, max(0.5, target_results / max(1, len(got))))
+            step = max(1, min(grow_to, int(step * factor)))
+
+
+def fetch_logs(rpc: RPC, frm: int, to: int, flt: dict[str, Any], max_range: int, **kw: Any) -> list[dict[str, Any]]:
+    return [lg for chunk in iter_logs(rpc, frm, to, flt, max_range, **kw) for lg in chunk]
+
+
 class OnchainWatcher(Watcher):
     kind = ONCHAIN
 
@@ -93,24 +124,8 @@ class OnchainWatcher(Watcher):
         self.max_per_poll = max_blocks_per_poll
 
     # ---- RPC helpers ------------------------------------------------------
-    def _logs(self, frm: int, to: int, topics: list[Any]) -> list[dict[str, Any]]:
-        return self.rpc.call("eth_getLogs", [{"fromBlock": hex(frm), "toBlock": hex(to), "topics": topics}])
-
     def _logs_adaptive(self, frm: int, to: int, topics: list[Any]) -> list[dict[str, Any]]:
-        """Fetch logs, halving the block range when the provider says the range/result is too big."""
-        out, start, step = [], frm, self.max_range
-        while start <= to:
-            end = min(to, start + step - 1)
-            try:
-                out.extend(self._logs(start, end, topics))
-                start = end + 1
-            except (RPCError, http.HttpError) as e:
-                if step > 1 and RANGE_ERR_RE.search(str(e)):
-                    step = max(1, step // 2)
-                    log.debug("%s: shrinking log range to %d (%s)", self.name, step, e)
-                    continue
-                raise
-        return out
+        return fetch_logs(self.rpc, frm, to, {"topics": topics}, self.max_range)
 
     def token_meta(self, store: Store, token: str) -> dict[str, Any]:
         ns = f"tokens:{self.chain}"

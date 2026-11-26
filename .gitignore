@@ -6,3 +6,4 @@ radar.db
 radar.db-*
 .env
 wallets.local.yaml
+wallets.discovered.yaml

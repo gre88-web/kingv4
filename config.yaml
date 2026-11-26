@@ -11,25 +11,35 @@ chains:
     max_block_range: 1000
     confirmations: 3
     lookback_blocks: 300          # ~1h at 12s blocks
+    dex_backfill_blocks: 7200     # when a token is flagged, look this far back for pools (~1 day)
     interval: 60
   base:
     rpc: https://base.drpc.org      # free tier caps logs at 100 blocks; mainnet.base.org rate-limits getLogs hard
     max_block_range: 100
     confirmations: 10
     lookback_blocks: 1800         # ~1h at 2s
+    dex_backfill_blocks: 3600     # ~2h; raise with a paid RPC
     interval: 60
   robinhood:                      # Robinhood Chain (Arbitrum Orbit), chainId 4663
     rpc: https://rpc.mainnet.chain.robinhood.com
-    max_block_range: 2000
+    max_block_range: 30000        # unfiltered queries capped at 30k blocks; ~0.12s blocks
     confirmations: 20
-    lookback_blocks: 14400        # ~1h at ~0.25s
+    lookback_blocks: 30000        # ~1h
+    dex_backfill_blocks: 720000   # ~1 day
     interval: 60
   ink:                            # Kraken's Ink (OP Stack), chainId 57073; public RPC caps logs at 1000 blocks
     rpc: https://rpc-gel.inkonchain.com
     max_block_range: 1000
     confirmations: 10
     lookback_blocks: 3600         # ~1h at 1s
+    dex_backfill_blocks: 10000    # ~3h
     interval: 60
+
+# New DEX pools for flagged tokens (any factory; Uniswap V2/V3/V4, Aerodrome and forks).
+dex:
+  enabled: true
+  watch_days: 45                  # stop watching a flagged token after this long
+  weight: 3
 
 # Code watchers.
 code:

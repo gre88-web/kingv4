@@ -5,6 +5,7 @@ import logging
 import sys
 import time
 from collections import defaultdict
+from pathlib import Path
 from datetime import datetime, timezone
 
 from . import config as config_mod
@@ -89,6 +90,43 @@ def cmd_candidates(args, cfg) -> int:
     return 0
 
 
+def cmd_discover(args, cfg) -> int:
+    from .discover import Discoverer, listings_from_signals, load_listings, write_wallets
+    from .watchers.onchain import RPC
+
+    store = Store(cfg["db"])
+    chains = cfg.get("chains") or {}
+    listings = load_listings(Path(args.config).resolve().parent / args.listings)
+    if not args.no_signals:
+        have = {(l.chain, l.address) for l in listings}
+        listings += [l for l in listings_from_signals(store, set(chains)) if (l.chain, l.address) not in have]
+    if args.chain:
+        listings = [l for l in listings if l.chain in args.chain]
+    if not listings:
+        print(f"no listings: add some to {args.listings}, or let `radar run` observe a few")
+        return 1
+    print(f"{len(listings)} listing(s): " + ", ".join(f"{l.label}@{l.chain}" for l in listings))
+    known = {w["address"]: w["label"] for w in cfg["wallets"]}
+    d = Discoverer(store, {n: RPC(c["rpc"]) for n, c in chains.items()},
+                   {n: c.get("max_block_range", 1000) for n, c in chains.items()}, known=known)
+    buyers = d.run(listings, pre_days=args.pre_days, min_events=args.min_events,
+                   include_contracts=args.include_contracts, limit=args.limit)
+    if not buyers:
+        print("no wallets matched")
+        return 0
+    print(f"\n{'#':>3}  {'address':<42}  {'hits':>4}  {'score':>6}  listings (earliness, size, share of net buying)")
+    for i, b in enumerate(buyers, 1):
+        parts = [f"{k} ({v['early']:.2f}, {v['size']:.2f}, {100 * v['share']:.2f}%"
+                 f"{', pool buy' if v['bought_from_pool'] else ''})"
+                 for k, v in b.detail.items()]
+        tag = f"  [{known[b.address]}]" if b.address in known else ""
+        print(f"{i:>3}  {b.address}  {len(b.events):>4}  {b.total:>6.2f}  {'; '.join(parts)}{tag}")
+    if args.out:
+        write_wallets(Path(args.config).resolve().parent / args.out, buyers)
+        print(f"\nwrote {len(buyers)} wallet(s) to {args.out}; review it, then add it to wallet_files")
+    return 0
+
+
 def cmd_check(args, cfg) -> int:
     """Probe every configured endpoint once without touching the database."""
     watchers, _ = build_watchers(cfg)
@@ -134,13 +172,23 @@ def main(argv: list[str] | None = None) -> int:
     c.add_argument("--limit", type=int, default=25)
     c.add_argument("--days", type=float, default=30)
     sub.add_parser("check", help="probe endpoints and RPCs")
+    d = sub.add_parser("discover", help="find wallets that bought early before past listings")
+    d.add_argument("--listings", default="listings.yaml", help="past listings file (relative to config)")
+    d.add_argument("--no-signals", action="store_true", help="ignore listings observed by `radar run`")
+    d.add_argument("--chain", nargs="*", help="only listings on these chains")
+    d.add_argument("--pre-days", type=float, default=10, help="window before each listing")
+    d.add_argument("--min-events", type=int, default=1, help="require early buys in at least N listings")
+    d.add_argument("--include-contracts", action="store_true", help="keep contract wallets (smart accounts, MM vaults)")
+    d.add_argument("--limit", type=int, default=25)
+    d.add_argument("--out", help="write results as a wallets file, e.g. wallets.discovered.yaml")
     args = ap.parse_args(argv)
 
     logging.basicConfig(level=logging.DEBUG if args.verbose else logging.INFO,
                         format="%(asctime)s %(levelname)s %(name)s: %(message)s")
     logging.getLogger("urllib3").setLevel(logging.WARNING)
     cfg = config_mod.load(args.config)
-    return {"run": cmd_run, "signals": cmd_signals, "candidates": cmd_candidates, "check": cmd_check}[args.cmd](args, cfg)
+    return {"run": cmd_run, "signals": cmd_signals, "candidates": cmd_candidates, "check": cmd_check,
+            "discover": cmd_discover}[args.cmd](args, cfg)
 
 
 if __name__ == "__main__":
