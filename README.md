@@ -47,8 +47,9 @@ a listing event. Robinhood and Kraken report only tickers, so the contract addre
 looked up in the BitGo snapshot. The list of discovery inputs grows as the radar runs.
 
 Scans are cached per token and window, so re-ranking is instant. The first scan can be
-large: Cash Cat had about 370k transfers in just the 2 days before its listing. That took
-about 4 minutes on the public Robinhood Chain RPC. On Base, use a paid RPC for this.
+large: Cash Cat had about 1.02M transfers in the 10 days before its listing. Streaming them
+from the public Robinhood Chain RPC took about 10 minutes, with memory staying flat. On
+Base, use a paid RPC for this.
 
 With a single listing you get its biggest early accumulators. That includes regular
 traders, so the ranking becomes meaningful once there are 3 or more listings.
