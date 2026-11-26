@@ -1,0 +1,18 @@
+[project]
+name = "radar"
+version = "0.1.0"
+description = "Public-data signal radar: code diffs, exchange listing APIs and labeled-wallet flows on Ethereum, Base, Robinhood Chain and Ink."
+requires-python = ">=3.10"
+dependencies = ["requests>=2.28", "PyYAML>=6.0"]
+
+[project.optional-dependencies]
+dev = ["pytest>=7"]
+
+[project.scripts]
+radar = "radar.cli:main"
+
+[tool.setuptools]
+packages = ["radar", "radar.watchers"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

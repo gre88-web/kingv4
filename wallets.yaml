@@ -1,0 +1,14 @@
+# Labeled wallets the onchain watcher follows on every chain (or only those in `chains`).
+#
+# Fill this from a source you trust: Arkham (intel.arkm.com), Etherscan/Basescan labels,
+# Nansen, or your own research. Verify each address yourself; mislabeled wallets produce
+# confident-looking but wrong alerts. Keep private lists in wallets.local.yaml (gitignored).
+#
+# kind: market_maker | exchange | fund | team | other   (sets the signal weight)
+#
+# Example:
+#   - label: Wintermute
+#     address: "0x0000000000000000000000000000000000000000"
+#     kind: market_maker
+#     chains: [ethereum, base, robinhood]
+wallets: []

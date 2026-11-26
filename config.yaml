@@ -1,0 +1,75 @@
+# radar configuration. RPC URLs can be overridden with RADAR_RPC_<CHAIN> env vars
+# (public RPCs are rate limited; use Alchemy/QuickNode/etc. for anything serious).
+db: radar.db
+alert_min_severity: low          # low | medium | high
+correlation_window_days: 30
+wallet_files: [wallets.yaml, wallets.local.yaml]   # wallets.local.yaml is gitignored
+
+chains:
+  ethereum:
+    rpc: https://rpc.flashbots.net   # public; use your own via RADAR_RPC_ETHEREUM
+    max_block_range: 1000
+    confirmations: 3
+    lookback_blocks: 300          # ~1h at 12s blocks
+    interval: 60
+  base:
+    rpc: https://base.drpc.org      # free tier caps logs at 100 blocks; mainnet.base.org rate-limits getLogs hard
+    max_block_range: 100
+    confirmations: 10
+    lookback_blocks: 1800         # ~1h at 2s
+    interval: 60
+  robinhood:                      # Robinhood Chain (Arbitrum Orbit), chainId 4663
+    rpc: https://rpc.mainnet.chain.robinhood.com
+    max_block_range: 2000
+    confirmations: 20
+    lookback_blocks: 14400        # ~1h at ~0.25s
+    interval: 60
+  ink:                            # Kraken's Ink (OP Stack), chainId 57073; public RPC caps logs at 1000 blocks
+    rpc: https://rpc-gel.inkonchain.com
+    max_block_range: 1000
+    confirmations: 10
+    lookback_blocks: 3600         # ~1h at 1s
+    interval: 60
+
+# Code watchers.
+code:
+  # BitGo custody token registry: the repo where Cash Cat on Robinhood Chain showed up first.
+  - name: bitgo-statics
+    type: files
+    repo: BitGo/BitGoJS
+    branch: master
+    interval: 300
+    weight: 4
+    paths:
+      - modules/statics/src/coins/hoodethTokens.ts
+      - modules/statics/src/coins/botTokens.ts
+      - modules/statics/src/coins/erc20Coins.ts
+      - modules/statics/src/allCoinsAndTokens.ts
+      - modules/statics/src/base.ts
+    bulk_threshold: 15        # >15 new tokens on one chain in one poll = batch onboarding, weight x0.5
+    downweight:
+      # Robinhood Chain tokenized stocks/ETFs ("NVIDIA Corporation • Robinhood", "Adobe Inc."):
+      # a steady flow that rarely moves like a crypto listing.
+      - pattern: "• Robinhood$|\\b(Inc|Corp|Corporation|Ltd|Limited|Holdings?|ETF|Shares|PLC|plc|N\\.V|S\\.A|Co)\\b"
+        factor: 0.25
+        reason: tokenized stock
+
+  # Trust Wallet token registry: a new folder blockchains/<chain>/assets/<address>/ = new token.
+  # Uses the GitHub API; set GITHUB_TOKEN (60 req/h without it).
+  - name: trustwallet-assets
+    type: commits
+    repo: trustwallet/assets
+    branch: master
+    interval: 900
+    weight: 2
+    path_chains:
+      blockchains/ethereum/: ethereum
+      blockchains/base/: base
+    enabled: true
+
+# Public exchange listing APIs (snapshot diffs). Set to false to disable.
+exchanges:
+  robinhood: {interval: 180, weight: 4}
+  coinbase_currencies: {interval: 300, weight: 4}
+  coinbase_products: {interval: 180, weight: 4}
+  kraken: {interval: 300, weight: 4}   # Kraken runs Ink
